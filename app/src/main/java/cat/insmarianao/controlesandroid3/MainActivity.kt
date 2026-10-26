@@ -1,8 +1,10 @@
 package cat.insmarianao.controlesandroid3
 
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ListView
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -26,13 +28,18 @@ class MainActivity : AppCompatActivity() {
             "Venezuela" to 916445
         )
 
-        val lista = findViewById<ListView>(R.id.contenedor)
+        val lista = findViewById<Spinner>(R.id.contenedor)
         val nombres = paises.keys.toList()
         lista.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, nombres)
 
-        lista.setOnItemClickListener { parent, view, position, id ->
-            val pais = nombres[position]
-            (view as TextView).text = "$pais: ${paises[pais]} km²"
+        lista.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val pais = nombres[position]
+                (view as TextView).text = "$pais: ${paises[pais]} km²"
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
         }
     }
 }
